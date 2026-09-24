@@ -1,0 +1,606 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+/* ============================================================
+   FERRITE ANALYZER PRO — Design System
+   Quiet, precise, expensive. Monochrome instrument surfaces,
+   one restrained accent, hairline structure, calm motion.
+   ============================================================ */
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Exposed to Tailwind so opacity modifiers work: bg-accent/10, border-danger/40 … */
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-ink: var(--ink);
+  --color-sunken: var(--sunken);
+  --color-hoverfill: var(--hover);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+}
+
+/* ---------- Dark (default: best for judging grayscale micrographs) ---------- */
+:root {
+  --bg: #0c0c0d;
+  --bg-tint: #0f0f11;
+  --surface: #131314;
+  --surface-elevated: #17181a;
+  --sunken: rgba(0, 0, 0, 0.3);
+  --hover: rgba(255, 255, 255, 0.045);
+  --border: rgba(255, 255, 255, 0.085);
+  --border-strong: rgba(255, 255, 255, 0.17);
+  --text: #f4f3f1;
+  --text-secondary: rgba(244, 243, 241, 0.64);
+  --text-muted: rgba(244, 243, 241, 0.4);
+
+  --ink: #f4f3f1;
+  --ink-contrast: #0c0c0d;
+
+  --accent: #79c7d4;
+  --accent-strong: #a5dde6;
+  --accent-soft: rgba(121, 199, 212, 0.12);
+  --success: #74bc93;
+  --warning: #dda75b;
+  --danger: #e4837a;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.34), 0 16px 40px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.4), 0 32px 80px rgba(0, 0, 0, 0.5);
+
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Light (gallery paper) ---------- */
+:root.light {
+  --bg: #f5f4f1;
+  --bg-tint: #f1efec;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --sunken: #faf9f7;
+  --hover: rgba(23, 24, 26, 0.04);
+  --border: rgba(23, 24, 26, 0.1);
+  --border-strong: rgba(23, 24, 26, 0.2);
+  --text: #17181a;
+  --text-secondary: #5a5d61;
+  --text-muted: #8b8e93;
+
+  --ink: #17181a;
+  --ink-contrast: #ffffff;
+
+  --accent: #0e6b7a;
+  --accent-strong: #0a505c;
+  --accent-soft: rgba(14, 107, 122, 0.08);
+  --success: #2f7d5b;
+  --warning: #96661a;
+  --danger: #b24339;
+
+  --shadow-sm: 0 1px 2px rgba(23, 24, 26, 0.05);
+  --shadow-md: 0 1px 2px rgba(23, 24, 26, 0.05), 0 8px 24px rgba(23, 24, 26, 0.06);
+  --shadow-lg: 0 2px 4px rgba(23, 24, 26, 0.05), 0 24px 64px rgba(23, 24, 26, 0.12);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv05", "cv11", "ss01";
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.024em;
+}
+
+/* ---------- Colour + surface utilities ---------- */
+.font-mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+.bg-app {
+  background-color: var(--bg);
+}
+.bg-surface {
+  background-color: var(--surface);
+}
+.bg-surface-elevated {
+  background-color: var(--surface-elevated);
+}
+.text-app {
+  color: var(--text);
+}
+.text-app-secondary {
+  color: var(--text-secondary);
+}
+.text-app-muted {
+  color: var(--text-muted);
+}
+.border-app {
+  border-color: var(--border);
+}
+.border-app-strong {
+  border-color: var(--border-strong);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--border);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.panel-elevated {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.panel-sunken {
+  background: var(--sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* Hairline divider that fades at both ends — a small luxury detail */
+.hairline {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, var(--border-strong) 18%, var(--border-strong) 82%, transparent);
+}
+
+/* ---------- Interaction: lift + pointer-tracked sheen ---------- */
+.lift {
+  transition:
+    transform 320ms var(--ease),
+    border-color 320ms var(--ease),
+    box-shadow 320ms var(--ease),
+    background-color 320ms var(--ease);
+  will-change: transform;
+}
+.lift:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.sheen {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 420ms var(--ease);
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 16%, transparent),
+    transparent 68%
+  );
+}
+.sheen:hover::after {
+  opacity: 1;
+}
+
+/* Underline that draws in from the left */
+.link-underline {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 420ms var(--ease);
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* ---------- Scrollbars ---------- */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+  background-clip: content-box;
+}
+
+/* ---------- Motion ---------- */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 420ms var(--ease) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 560ms var(--ease) both;
+}
+.rise-1 { animation-delay: 60ms; }
+.rise-2 { animation-delay: 120ms; }
+.rise-3 { animation-delay: 180ms; }
+.rise-4 { animation-delay: 240ms; }
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.animate-scale-in {
+  animation: scale-in 300ms var(--ease) both;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--warning) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--warning) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--warning) 0%, transparent);
+  }
+}
+.pulse-uncertain {
+  animation: pulse-ring 2s var(--ease-soft) infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--hover), transparent);
+  animation: shimmer 1.8s infinite;
+}
+
+/* ---------- Forms + focus ---------- */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  letter-spacing: inherit;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 22px;
+  background: transparent;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -6.5px;
+  height: 16px;
+  width: 16px;
+  border-radius: 999px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 200ms var(--ease),
+    border-color 200ms var(--ease);
+}
+input[type="range"]:hover::-webkit-slider-thumb {
+  transform: scale(1.16);
+  border-color: var(--accent);
+}
+input[type="range"]::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+input[type="range"]::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  border-radius: 999px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-strong);
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   A precision dot with a trailing ring that reacts to context.
+   ============================================================ */
+@media (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor body,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+.cursor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  contain: strict;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 999px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--text);
+  transition:
+    width 260ms var(--ease),
+    height 260ms var(--ease),
+    margin 260ms var(--ease),
+    border-radius 260ms var(--ease),
+    background-color 260ms var(--ease),
+    opacity 260ms var(--ease);
+}
+
+.cursor-ring {
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 1px solid color-mix(in srgb, var(--text) 34%, transparent);
+  background: transparent;
+  transition:
+    width 380ms var(--ease),
+    height 380ms var(--ease),
+    margin 380ms var(--ease),
+    border-color 380ms var(--ease),
+    border-radius 380ms var(--ease),
+    background-color 380ms var(--ease),
+    opacity 300ms var(--ease);
+}
+
+/* hovering something clickable */
+.cursor-layer[data-state="hover"] .cursor-ring {
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  border-color: color-mix(in srgb, var(--accent) 78%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.cursor-layer[data-state="hover"] .cursor-dot {
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  background: var(--accent);
+}
+
+/* pressing */
+.cursor-layer[data-pressed="true"] .cursor-ring {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* text fields */
+.cursor-layer[data-state="text"] .cursor-ring {
+  width: 0;
+  height: 0;
+  margin: 0;
+  opacity: 0;
+}
+.cursor-layer[data-state="text"] .cursor-dot {
+  width: 2px;
+  height: 22px;
+  margin: -11px 0 0 -1px;
+  border-radius: 1px;
+  background: var(--accent);
+}
+
+/* measurement surfaces — becomes a reticle */
+.cursor-layer[data-state="precision"] .cursor-ring {
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border-radius: 4px;
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  background: transparent;
+}
+.cursor-layer[data-state="precision"] .cursor-dot {
+  width: 3px;
+  height: 3px;
+  margin: -1.5px 0 0 -1.5px;
+  background: var(--accent);
+}
+.cursor-layer[data-state="precision"] .cursor-cross {
+  opacity: 1;
+}
+
+.cursor-cross {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 68px;
+  height: 68px;
+  margin: -34px 0 0 -34px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease);
+  will-change: transform;
+}
+.cursor-cross span {
+  position: absolute;
+  background: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.cursor-cross span:nth-child(1) {
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 14px;
+  transform: translateX(-0.5px);
+}
+.cursor-cross span:nth-child(2) {
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 14px;
+  transform: translateX(-0.5px);
+}
+.cursor-cross span:nth-child(3) {
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 14px;
+  transform: translateY(-0.5px);
+}
+.cursor-cross span:nth-child(4) {
+  top: 50%;
+  right: 0;
+  height: 1px;
+  width: 14px;
+  transform: translateY(-0.5px);
+}
+
+.cursor-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, 30px);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-contrast);
+  background: var(--ink);
+  opacity: 0;
+  transition:
+    opacity 260ms var(--ease),
+    transform 380ms var(--ease);
+  will-change: transform;
+}
+.cursor-layer[data-label="true"] .cursor-label {
+  opacity: 1;
+}
+
+.cursor-layer[data-hidden="true"] {
+  opacity: 0;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-scale-in,
+  .rise,
+  .pulse-uncertain,
+  .shimmer::after {
+    animation: none !important;
+  }
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+@media print {
+  .cursor-layer {
+    display: none;
+  }
+}
